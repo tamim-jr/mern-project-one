@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         tequired: true
     },
+    work:{
+        type: String,
+        required: true
+    },
     password:{
         type: String,
         required: true
