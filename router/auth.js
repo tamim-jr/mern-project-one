@@ -56,6 +56,45 @@ router.post('/register', async (req, res) => {
         }
         const user = new User({ name, email, phone, work, password, cpassword });
 
+
+        //password bcrypt
+        
+
+        //some bigger
+        // const userRegister = await user.save();
+        // if(userRegister){
+        //     res.status(201).json({ msg: "user registered successfuly" });
+        // }else{
+        //     res.status(500).json({ err: "Failed to registered" })
+        // }
+        //more then shorter
+
+
+        await user.save();
+        res.status(201).json({ msg: "user registered successfuly" });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+//use async for login
+router.post('/login', async (req, res) => {
+
+    const { email, password } = req.body;
+
+    if (!email ||  !password ) {
+        return res.status(400).json({ err: "Please filled the field properly" });
+    }
+    try {
+        const userExist = await User.findOne({ email: email, password: password });
+        if (userExist) {
+            return res.json({ msg: "User login Successfuly!" });
+        }else{
+            res.status(422).json({ err: "Your email or password invalid" });
+            // alert("Your email and password invalid!");
+        }
+        const user = new User({  email, password });
+
         //some bigger
         // const userRegister = await user.save();
         // if(userRegister){
@@ -64,8 +103,8 @@ router.post('/register', async (req, res) => {
         //     res.status(500).json({ err: "Failed to segistered" })
         // }
         //more then shorter
-        await user.save();
-        res.status(201).json({ msg: "user registered successfuly" });
+        // await user.save();
+        // res.status(201).json({ msg: "user registered successfuly" });
     } catch (err) {
         console.log(err);
     }
